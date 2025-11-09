@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '0 12,0 * * *'
 
+# Sets permissions of the GITHUB_TOKEN to allow pushing commits
+permissions:
+  contents: write
+
 jobs:
   # Build job
   build:
