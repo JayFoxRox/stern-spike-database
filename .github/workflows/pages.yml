@@ -25,35 +25,30 @@ defaults:
     shell: bash
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
-          path: main
           ref: "main"
           submodules: recursive
-      - name: Checkout state
-        uses: actions/checkout@v4
-        with:
-          path: state
-          ref: "state"
-          submodules: recursive
+      - name: Fetch state
+        run: |
+          git fetch origin state
+          git worktree add ./state state
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Generating content
         run: |
-          mkdir pages
-          main/generate.py state pages
+          mkdir ./public
+          ./generate.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: pages
+          path: ./public
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
