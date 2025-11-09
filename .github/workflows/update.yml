@@ -29,5 +29,11 @@ jobs:
           git config user.name 'Stern SPIKE Database (update workflow)'
           git config user.email '<>'
           git commit -a -m "Update state"
-          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
+          popd
+      - name: Pushing state
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          pushd state
+          git push https://x-access-token:${PAT_TOKEN}@github.com/${{ github.repository }}.git
           popd
