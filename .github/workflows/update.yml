@@ -8,10 +8,6 @@ on:
   schedule:
     - cron: '0 12,0 * * *'
 
-# Sets permissions of the GITHUB_TOKEN to allow pushing commits
-permissions:
-  contents: write
-
 jobs:
   # Build job
   build:
@@ -33,7 +29,5 @@ jobs:
           git config user.name 'Stern SPIKE Database (update workflow)'
           git config user.email '<>'
           git commit -a -m "Update state"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
           popd
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
