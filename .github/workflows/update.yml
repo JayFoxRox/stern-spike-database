@@ -35,5 +35,5 @@ jobs:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           pushd state
-          git push "https://x-access-token:${PAT_TOKEN}@github.com/${{ github.repository }}.git" HEAD:state
+          git push "https://${PAT_TOKEN}@github.com/${{ github.repository }}.git" HEAD:state
           popd
