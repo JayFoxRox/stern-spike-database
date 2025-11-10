@@ -14,10 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: "main"
           submodules: recursive
+          persist-credentials: false
       - name: Fetch state
         run: |
           git fetch origin state
@@ -36,5 +37,5 @@ jobs:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           pushd state
-          git push "https://${PAT_OWNER}:${PAT_TOKEN}@github.com/${{ github.repository }}.git" +HEAD:state
+          git push "https://${PAT_OWNER}:${PAT_TOKEN}@github.com/${{ github.repository }}.git"
           popd
