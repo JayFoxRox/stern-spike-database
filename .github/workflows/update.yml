@@ -30,12 +30,18 @@ jobs:
           git config user.name 'Stern SPIKE Database (update workflow)'
           git config user.email '<>'
           git commit -a -m "Update state"
+          echo "COMMIT_STATUS=$?" >> $GITHUB_ENV
           popd
       - name: Pushing state
+        if: env.COMMIT_STATUS == '0'
         env:
-          PAT_OWNER: ${{ secrets.PAT_OWNER }}
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           pushd state
-          git push "https://${PAT_OWNER}:${PAT_TOKEN}@github.com/${{ github.repository }}.git"
+          git push "https://${PAT_TOKEN}@github.com/${{ github.repository }}.git"
+          curl -X POST \
+            -H "Authorization: token ${PAT_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d '{"event_type": "state-updated"}'
           popd

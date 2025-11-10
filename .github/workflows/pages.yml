@@ -4,9 +4,16 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  # Update if the code or data changed
+  # Update if the code changed
   push:
-    branches: ["main", "state"]
+    branches: 
+      - main
+
+  # Update if the state changed
+  # (watching branch pushes won't work, because state branch doesn't have workflows)
+  repository_dispatch:
+    types: [state-updated]
+
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
